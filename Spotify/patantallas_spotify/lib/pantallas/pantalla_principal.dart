@@ -12,8 +12,8 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
 
   // Variables para el reproductor
   bool _isPlaying = false;
-  double _currentPosition = 0.0; // Posición actual (en segundos)
-  final double _songDuration = 230.0; // Duración total (ejemplo: 230 segundos)
+  double _currentPosition = 0.0; 
+  final double _songDuration = 230.0; 
 
   // Controlador de scroll para la sección "Hecho para Ti"
   final ScrollController _hechoParaTiScrollController = ScrollController();
@@ -41,7 +41,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
                     SizedBox(height: 10),
                     _buildCategoryButtons(),
                     SizedBox(height: 10),
-                    // Sección "Hecho para ti" con botones para scroll horizontal
+                    // Sección Hecho para ti
                     _buildPlaylistSectionWithArrows(
                       'Hecho para Ti',
                       [
@@ -71,16 +71,16 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
             ),
           ),
 
-          // Panel lateral derecho con Scrollbar vertical
+          // Panel lateral derecho 
           _buildRightPanel(),
         ],
       ),
     );
   }
 
-  // -------------------------------------------------------------
-  // PANEL LATERAL DERECHO CON SCROLL VERTICAL
-  // -------------------------------------------------------------
+
+  // panel lateral derecho
+  
   Widget _buildRightPanel() {
     return Container(
       width: 300,
@@ -91,7 +91,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
           padding: EdgeInsets.all(20),
           child: Column(
             children: [
-              // GIF arriba
+              
               Container(
                 width: 210,
                 height: 210,
@@ -104,7 +104,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
                 ),
               ),
               SizedBox(height: 20),
-              // Imagen del artista en medio SIN overlay (sin franjas)
+              
               Container(
                 width: 210,
                 height: 210,
@@ -117,7 +117,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
                 ),
               ),
               SizedBox(height: 20),
-              // Información abajo
+              
               Container(
                 width: 210,
                 padding: EdgeInsets.all(10),
@@ -137,7 +137,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
                       'Motley Crue han sido una de las mejores banda metal.',
                       style: TextStyle(color: Colors.white70, fontSize: 12),
                     ),
-                    // Información adicional para forzar scroll
+                    
                     SizedBox(height: 20),
                     Text(
                       'Información adicional:',
@@ -160,9 +160,9 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
     );
   }
 
-  // -------------------------------------------------------------
+  
   // APP BAR
-  // -------------------------------------------------------------
+  
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.black,
@@ -213,9 +213,9 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
     );
   }
 
-  // -------------------------------------------------------------
-  // BANNER SUPERIOR
-  // -------------------------------------------------------------
+  
+  // Banner 
+  
   Widget _buildBannerSection() {
     return Container(
       height: 350,
@@ -259,9 +259,9 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
     );
   }
 
-  // -------------------------------------------------------------
-  // BOTONES DE CATEGORÍA
-  // -------------------------------------------------------------
+  
+  // etiquetas de categorias
+  
   Widget _buildCategoryButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -289,9 +289,9 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
     );
   }
 
-  // -------------------------------------------------------------
-  // PANEL LATERAL IZQUIERDO
-  // -------------------------------------------------------------
+  
+  // panel izquierdo
+  
   Widget _buildLibraryPanel() {
     return Container(
       width: 250,
@@ -338,9 +338,9 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
     );
   }
 
-  // -------------------------------------------------------------
-  // SECCIÓN DE PLAYLISTS (SCROLL HORIZONTAL) + BOTONES DE DESPLAZAMIENTO
-  // -------------------------------------------------------------
+  
+  // seccion de playlist
+  
   Widget _buildPlaylistSectionWithArrows(String title, List<Map<String, String>> playlists) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -348,10 +348,10 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
         Text(title,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
         SizedBox(height: 10),
-        // Fila con flecha izquierda, ListView horizontal y flecha derecha
+        
         Row(
           children: [
-            // Botón flecha izquierda
+            
             IconButton(
               icon: Icon(Icons.arrow_left, color: Colors.white),
               onPressed: () {
@@ -378,7 +378,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Imagen con ícono de play sobrepuesto
+                          
                           Stack(
                             children: [
                               ClipRRect(
@@ -411,7 +411,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
                 ),
               ),
             ),
-            // Botón flecha derecha
+            
             IconButton(
               icon: Icon(Icons.arrow_right, color: Colors.white),
               onPressed: () {
@@ -428,9 +428,9 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
     );
   }
 
-  // -------------------------------------------------------------
-  // SECCIÓN EN 2 COLUMNAS (Tus mixes más escuchados)
-  // -------------------------------------------------------------
+  
+  // Tus mixes más escuchados
+  
   Widget _buildTwoColumnGridSection(String title, List<Map<String, String>> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -485,9 +485,9 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
     );
   }
 
-  // -------------------------------------------------------------
-  // BARRA DE REPRODUCCIÓN
-  // -------------------------------------------------------------
+  
+  // Barra de reproduccion
+
   Widget _buildPlaybackBar() {
     return Container(
       color: Colors.black,
