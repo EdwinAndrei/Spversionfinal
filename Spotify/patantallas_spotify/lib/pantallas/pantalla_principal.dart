@@ -1,22 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Spotify UI',
-      debugShowCheckedModeBanner: false, 
-      home: PantallaSpotify(),
-    );
-  }
-}
-
-class PantallaSpotify extends StatefulWidget {
-  const PantallaSpotify({super.key});
+ class PantallaSpotify extends StatefulWidget {
+  const PantallaSpotify({Key? key}) : super(key: key);
 
   @override
   _PantallaSpotifyState createState() => _PantallaSpotifyState();
@@ -24,11 +9,14 @@ class PantallaSpotify extends StatefulWidget {
 
 class _PantallaSpotifyState extends State<PantallaSpotify> {
   String _selectedCategory = 'Todo';
-  
+
   // Variables para el reproductor
   bool _isPlaying = false;
-  double _currentPosition = 0.0;   // Posición actual (en segundos)
+  double _currentPosition = 0.0; // Posición actual (en segundos)
   final double _songDuration = 230.0; // Duración total (ejemplo: 230 segundos)
+
+  // Controlador de scroll para la sección "Hecho para Ti"
+  final ScrollController _hechoParaTiScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +26,10 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
       bottomNavigationBar: _buildPlaybackBar(), // Barra de reproducción
       body: Row(
         children: [
+          // Panel lateral izquierdo
           _buildLibraryPanel(),
+
+          // Contenido central
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -50,17 +41,21 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
                     SizedBox(height: 10),
                     _buildCategoryButtons(),
                     SizedBox(height: 10),
-                   _buildPlaylistSection('Hecho para Ti', [
-                      {'title': 'Tus me gusta', 'image': 'assets/foto.png'},
-                      {'title': 'Mix diario 1', 'image': 'assets/mix.jfif'},
-                      {'title': 'Mix Bad Bunny', 'image': 'assets/debi.jfif'},
-                      {'title': 'Mix Rock', 'image': 'assets/rock.jfif'},
-                      {'title': 'Djo', 'image': 'assets/djo.jfif'},
-                      {'title': 'Tu Top de canciones 2024', 'image': 'assets/top.jfif'},
-                      {'title': 'Kendrick Lamar - Halftime Hits', 'image': 'assets/kendri.jpg'},
-                      {'title': 'Mix 80', 'image': 'assets/80.jfif'},
-                    ]),
-                  SizedBox(height: 20),
+                    // Sección "Hecho para ti" con botones para scroll horizontal
+                    _buildPlaylistSectionWithArrows(
+                      'Hecho para Ti',
+                      [
+                        {'title': 'Tus me gusta', 'image': 'assets/foto.png'},
+                        {'title': 'Mix diario 1', 'image': 'assets/mix.jfif'},
+                        {'title': 'Mix Bad Bunny', 'image': 'assets/debi.jfif'},
+                        {'title': 'Mix Rock', 'image': 'assets/rock.jfif'},
+                        {'title': 'Djo', 'image': 'assets/djo.jfif'},
+                        {'title': 'Tu Top de canciones 2024', 'image': 'assets/top.jfif'},
+                        {'title': 'Kendrick Lamar - Halftime Hits', 'image': 'assets/kendri.jpg'},
+                        {'title': 'Mix 80', 'image': 'assets/80.jfif'},
+                      ],
+                    ),
+                    SizedBox(height: 20),
                     _buildTwoColumnGridSection('Tus mixes mas escuchados', [
                       {'title': 'Tus me gusta', 'image': 'assets/foto.png'},
                       {'title': 'Rock', 'image': 'assets/rock.jfif'},
@@ -75,7 +70,92 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
               ),
             ),
           ),
+
+          // Panel lateral derecho con Scrollbar vertical
+          _buildRightPanel(),
         ],
+      ),
+    );
+  }
+
+  // -------------------------------------------------------------
+  // PANEL LATERAL DERECHO CON SCROLL VERTICAL
+  // -------------------------------------------------------------
+  Widget _buildRightPanel() {
+    return Container(
+      width: 300,
+      color: Colors.black,
+      child: Scrollbar(
+        thumbVisibility: true,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              // GIF arriba
+              Container(
+                width: 210,
+                height: 210,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.asset(
+                    'assets/kick.gif',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              // Imagen del artista en medio SIN overlay (sin franjas)
+              Container(
+                width: 210,
+                height: 210,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.asset(
+                    'assets/kick.jfif',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              // Información abajo
+              Container(
+                width: 210,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[800],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '9.732.611 oyentes mensuales',
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Motley Crue han sido una de las mejores banda metal.',
+                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                    ),
+                    // Información adicional para forzar scroll
+                    SizedBox(height: 20),
+                    Text(
+                      'Información adicional:',
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text(
+                      'Mötley Crüe ha vendido más de 80 millones de álbumes en todo el mundo, incluyendo 25 millones en los Estados Unidos. ' *
+                          5,
+                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+              // Espacio extra para que se active el scroll
+              SizedBox(height: 400),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -220,7 +300,8 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Tu biblioteca', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+          Text('Tu biblioteca',
+              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -258,71 +339,104 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
   }
 
   // -------------------------------------------------------------
-  // SECCIÓN DE PLAYLISTS (SCROLL HORIZONTAL)
+  // SECCIÓN DE PLAYLISTS (SCROLL HORIZONTAL) + BOTONES DE DESPLAZAMIENTO
   // -------------------------------------------------------------
-  Widget _buildPlaylistSection(String title, List<Map<String, String>> playlists) {
+  Widget _buildPlaylistSectionWithArrows(String title, List<Map<String, String>> playlists) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+        Text(title,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
         SizedBox(height: 10),
-        SizedBox(
-          height: 180,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: playlists.length,
-            separatorBuilder: (context, _) => SizedBox(width: 10),
-            itemBuilder: (context, index) {
-              final playlist = playlists[index];
-              return SizedBox(
-                width: 140,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Imagen con ícono de play sobrepuesto
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
-                            playlist['image']!,
-                            width: 140,
-                            height: 140,
-                            fit: BoxFit.cover,
+        // Fila con flecha izquierda, ListView horizontal y flecha derecha
+        Row(
+          children: [
+            // Botón flecha izquierda
+            IconButton(
+              icon: Icon(Icons.arrow_left, color: Colors.white),
+              onPressed: () {
+                _hechoParaTiScrollController.animateTo(
+                  _hechoParaTiScrollController.offset - 200,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              },
+            ),
+            // ListView horizontal
+            Expanded(
+              child: SizedBox(
+                height: 180,
+                child: ListView.separated(
+                  controller: _hechoParaTiScrollController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: playlists.length,
+                  separatorBuilder: (context, _) => SizedBox(width: 10),
+                  itemBuilder: (context, index) {
+                    final playlist = playlists[index];
+                    return SizedBox(
+                      width: 140,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Imagen con ícono de play sobrepuesto
+                          Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  playlist['image']!,
+                                  width: 140,
+                                  height: 140,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 5,
+                                right: 5,
+                                child: Icon(Icons.play_circle_fill, color: Colors.green, size: 30),
+                              ),
+                            ],
                           ),
-                        ),
-                        Positioned(
-                          bottom: 5,
-                          right: 5,
-                          child: Icon(Icons.play_circle_fill, color: Colors.green, size: 30),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                  Text(
-                      playlist['title']!,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                          SizedBox(height: 5),
+                          Text(
+                            playlist['title']!,
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+            // Botón flecha derecha
+            IconButton(
+              icon: Icon(Icons.arrow_right, color: Colors.white),
+              onPressed: () {
+                _hechoParaTiScrollController.animateTo(
+                  _hechoParaTiScrollController.offset + 200,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              },
+            ),
+          ],
         ),
       ],
     );
   }
 
   // -------------------------------------------------------------
-  // SECCIÓN EN 2 COLUMNAS (Tus mixes mas escuchados)
+  // SECCIÓN EN 2 COLUMNAS (Tus mixes más escuchados)
   // -------------------------------------------------------------
   Widget _buildTwoColumnGridSection(String title, List<Map<String, String>> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+        Text(title,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
         SizedBox(height: 10),
         GridView.builder(
           shrinkWrap: true,
@@ -343,7 +457,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
               ),
               padding: EdgeInsets.all(8),
               child: Row(
-              children: [
+                children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
@@ -353,8 +467,7 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
                       fit: BoxFit.cover,
                     ),
                   ),
-
-                SizedBox(width: 10),
+                  SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       item['title']!,
@@ -378,141 +491,98 @@ class _PantallaSpotifyState extends State<PantallaSpotify> {
   Widget _buildPlaybackBar() {
     return Container(
       color: Colors.black,
-      height: 100,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Primera fila: Portada, título, artista, y controles
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                // Portada junto al título y artista
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: [
-                      // Portada del álbum
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Image.asset(
-                          'assets/kick.jfif',
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.cover,
-                        ),
+      height: 70,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Row(
+          children: [
+            // Portada, título y artista
+            Expanded(
+              flex: 2,
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.asset(
+                      'assets/kick.jfif',
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'kickstart my heart',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(width: 8),
-                      // Título y artista
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'kickstart my heart',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Mötley Crüe',
-                            style: TextStyle(color: Colors.white70, fontSize: 12),
-                          ),
-                        ],
+                      Text(
+                        'Mötley Crüe',
+                        style: TextStyle(color: Colors.white70, fontSize: 12),
                       ),
                     ],
                   ),
-                ),
-
-                // Controles de reproducción
-                Expanded(
-                  flex: 3,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.shuffle, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.skip_previous, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isPlaying = !_isPlaying;
-                          });
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.skip_next, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.repeat, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Íconos a la derecha
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.queue_music, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.volume_up, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-
-          // Segunda fila: Barra de progreso y tiempos
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                // Tiempo transcurrido
-                Text(
-                  _formatTime(_currentPosition),
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
-                ),
-                Expanded(
-                  child: Slider(
-                    activeColor: Colors.white,
-                    inactiveColor: Colors.white30,
-                    min: 0.0,
-                    max: _songDuration,
-                    value: _currentPosition,
-                    onChanged: (value) {
+            // Controles centrales
+            Expanded(
+              flex: 3,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.shuffle, color: Colors.white),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.skip_previous, color: Colors.white),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                    onPressed: () {
                       setState(() {
-                        _currentPosition = value;
+                        _isPlaying = !_isPlaying;
                       });
                     },
                   ),
-                ),
-                // Tiempo total
-                Text(
-                  _formatTime(_songDuration),
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
-                ),
-              ],
+                  IconButton(
+                    icon: Icon(Icons.skip_next, color: Colors.white),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.repeat, color: Colors.white),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            // Íconos derechos
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.queue_music, color: Colors.white),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.volume_up, color: Colors.white),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
