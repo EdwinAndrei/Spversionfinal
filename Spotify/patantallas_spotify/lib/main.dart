@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'pantallas/pantalla_principal.dart'; // Asegúrate de que la ruta de la pantalla principal sea correcta
+import 'pantallas/login.dart'; // Asegúrate de que la ruta y el nombre del archivo sean correctos
 
 void main() {
-  runApp(SpotifyCloneApp());
+  runApp(const SpotifyCloneApp());
 }
 
 class SpotifyCloneApp extends StatelessWidget {
-  const SpotifyCloneApp({super.key});
+  const SpotifyCloneApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: PantallaSpotify(), // Aquí se instancia la pantalla PantallaSpotify
+      home: const LoginScreen(), // Aquí se inicia con el login
     );
   }
 }
