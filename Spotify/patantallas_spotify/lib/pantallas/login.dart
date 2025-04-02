@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pantalla_principal.dart'; // Asegúrate de que la ruta sea correcta
+import 'pantalla_principal.dart'; 
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -49,16 +49,16 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          // Filtro para oscurecer el fondo
+          
           Container(
             color: Colors.black.withOpacity(0.5),
           ),
-          // Contenido centrado (cuadrito de login)
+          
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Container(
-                width: 320, // Ajusta este valor para modificar el ancho del cuadrito
+                width: 320, 
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.8),
@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Logo de Spotify
+                    
                     Image.asset(
                       'assets/spotifylogo.jpg',
                       width: 150,
@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: double.infinity,
                       child: OutlinedButton.icon(
                         onPressed: () {
-                          // Acción para continuar con Facebook
+                          
                         },
                         icon: const Icon(Icons.facebook, color: Colors.white),
                         label: const Text(
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 16.0),
                     TextButton(
                       onPressed: () {
-                        // Acción para SIGNUP
+                      
                       },
                       child: const Text(
                         "No tienes una cuenta? REGISTRATE",
