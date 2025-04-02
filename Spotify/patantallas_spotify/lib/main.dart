@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pantallas/login.dart'; // Asegúrate de que la ruta y el nombre del archivo sean correctos
+import 'pantallas/login.dart'; 
 
 void main() {
   runApp(const SpotifyCloneApp());
@@ -13,7 +13,7 @@ class SpotifyCloneApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: const LoginScreen(), // Aquí se inicia con el login
+      home: const LoginScreen(),  // se inicializa el programa 
     );
   }
 }
